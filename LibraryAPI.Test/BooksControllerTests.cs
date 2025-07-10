@@ -56,5 +56,28 @@ namespace LibraryAPI.Test
             Assert.Equal(id1, bookItem.Id);
             Assert.Equal("Managing Oneself", bookItem.Title);
         }
+
+        [Theory]
+        [InlineData(1, 25)]
+        public  void RemoveBookTest(int id1, int id2)
+        {
+            //arrange
+            var existId = id1;
+            var notExistId = id2;
+
+            //act
+            var notFoundResult = _controller.Delete(notExistId);
+
+            //assert
+            Assert.IsType<NotFoundResult>(notFoundResult);
+            Assert.Equal(5, _service.GetAll().Count());
+
+            //act
+            var okResult = _controller.Delete(existId);
+
+            //assert
+            Assert.IsType<OkResult>(okResult);
+            Assert.Equal(4, _service.GetAll().Count());
+        }
     }
 }
