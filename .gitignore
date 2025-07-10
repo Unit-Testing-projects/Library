@@ -1,0 +1,8 @@
+
+# Visual Studio
+.vs/
+*.suo
+
+# Build output
+bin/
+obj/
