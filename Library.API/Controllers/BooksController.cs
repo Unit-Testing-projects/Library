@@ -32,7 +32,7 @@ namespace Library.API.Controllers
 
         [HttpGet]
         // GET: api/<BooksController>
-        public ActionResult<IEnumerable<Book>> Get()
+        public ActionResult<IEnumerable<Book>> GetAll()
         {
             var items = _service.GetAll();
             return Ok(items);
