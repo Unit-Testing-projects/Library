@@ -79,5 +79,47 @@ namespace LibraryAPI.Test
             Assert.IsType<OkResult>(okResult);
             Assert.Equal(4, _service.GetAll().Count());
         }
+
+        [Fact]
+        public void CreateBookTest()
+        {
+            //arrange
+            var completeBook = new Book()
+            {
+                Title = "Test",
+                Description = "Test",
+                Author = "Test",
+            };
+
+            //act
+            var createdResponse = _controller.Post(completeBook);
+
+            //assert
+            Assert.IsType<CreatedAtActionResult>(createdResponse);
+
+
+            var item = createdResponse as CreatedAtActionResult;
+            Assert.IsType<Book>(item.Value);
+
+            var bookItem = item.Value as Book;
+            Assert.Equal(completeBook.Title, bookItem.Title);
+            Assert.Equal(completeBook.Author, bookItem.Author);
+            Assert.Equal(completeBook.Description, bookItem.Description);
+
+            //arrange
+            var incompleteBook = new Book()
+            {
+                Description = "Test",
+                Author = "Test",
+            };
+
+            //act
+            _controller.ModelState.AddModelError("Title", "Title is a required field");
+            var badResponse = _controller.Post(incompleteBook);
+
+            //assert
+            Assert.IsType<BadRequestObjectResult>(badResponse);
+
+        }
     }
 }
